@@ -42,7 +42,7 @@ window.addEventListener("load", function () {
     frameworkUrl: buildUrl + "/Build.framework.js.unityweb",
     codeUrl: buildUrl + "/Build.wasm.unityweb",
     streamingAssetsUrl: "StreamingAssets",
-    companyName: "GotoAndPlay",
+    companyName: "NGenStudio",
     productName: "Connector",
     productVersion: "1.0",
     showBanner: unityShowBanner,
