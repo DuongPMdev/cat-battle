@@ -42,9 +42,9 @@ window.addEventListener("load", function () {
     frameworkUrl: buildUrl + "/Build.framework.js.unityweb",
     codeUrl: buildUrl + "/Build.wasm.unityweb",
     streamingAssetsUrl: "StreamingAssets",
-    companyName: "NGenStudio",
-    productName: "Connector",
-    productVersion: "1.0",
+    companyName: "NGen",
+    productName: "CatB",
+    productVersion: "1.0.0",
     showBanner: unityShowBanner,
   };
 

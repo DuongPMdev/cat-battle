@@ -1,6 +1,6 @@
 {
-    "name": "Connector",
-    "short_name": "Connector",
+    "name": "CatB",
+    "short_name": "CatB",
     "start_url": "index.html",
     "display": "fullscreen",
     "background_color": "#231F20",
