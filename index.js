@@ -1,8 +1,8 @@
-window.addEventListener("load", function () {
-    if ("serviceWorker" in navigator) {
-      navigator.serviceWorker.register("ServiceWorker.js");
-    }
-  });
+// window.addEventListener("load", function () {
+    // if ("serviceWorker" in navigator) {
+      // navigator.serviceWorker.register("ServiceWorker.js");
+    // }
+  // });
   var unityInstanceRef;
   var unsubscribe;
   var container = document.querySelector("#unity-container");
@@ -46,6 +46,9 @@ window.addEventListener("load", function () {
     productName: "CatB",
     productVersion: "1.0.0",
     showBanner: unityShowBanner,
+	cacheControl: function (url) {
+     return "no-store";
+   },
   };
 
   // By default Unity keeps WebGL canvas render target size matched with
