@@ -42,9 +42,9 @@
     frameworkUrl: buildUrl + "/Build.framework.js.unityweb",
     codeUrl: buildUrl + "/Build.wasm.unityweb",
     streamingAssetsUrl: "StreamingAssets",
-    companyName: "NGen",
-    productName: "CatB",
-    productVersion: "1.0.0",
+    companyName: "CatB",
+    productName: "Cat Battle",
+    productVersion: "1.0.1",
     showBanner: unityShowBanner,
 	cacheControl: function (url) {
      return "no-store";
