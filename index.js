@@ -36,15 +36,15 @@
   }
 
   var buildUrl = "Build";
-  var loaderUrl = buildUrl + "/Build.loader.js";
+  var loaderUrl = buildUrl + "/WebGL.loader.js";
   var config = {
-    dataUrl: buildUrl + "/Build.data.unityweb",
-    frameworkUrl: buildUrl + "/Build.framework.js.unityweb",
-    codeUrl: buildUrl + "/Build.wasm.unityweb",
+    dataUrl: buildUrl + "/WebGL.data.unityweb",
+    frameworkUrl: buildUrl + "/WebGL.framework.js.unityweb",
+    codeUrl: buildUrl + "/WebGL.wasm.unityweb",
     streamingAssetsUrl: "StreamingAssets",
     companyName: "CatB",
     productName: "Cat Battle",
-    productVersion: "1.0.2",
+    productVersion: "1.0.3",
     showBanner: unityShowBanner,
 	cacheControl: function (url) {
      return "no-store";
