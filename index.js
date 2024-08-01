@@ -44,7 +44,7 @@
     streamingAssetsUrl: "StreamingAssets",
     companyName: "CatB",
     productName: "Cat Battle",
-    productVersion: "1.0.2",
+    productVersion: "1.0.5",
     showBanner: unityShowBanner,
 	cacheControl: function (url) {
      return "no-store";
