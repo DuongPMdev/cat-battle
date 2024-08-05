@@ -44,7 +44,7 @@
     streamingAssetsUrl: "StreamingAssets",
     companyName: "CatB",
     productName: "Cat Battle",
-    productVersion: "1.0.5",
+    productVersion: "1.0.6",
     showBanner: unityShowBanner,
 	cacheControl: function (url) {
      return "no-store";
@@ -60,13 +60,15 @@
 
   render();
 
+  canvas.style.background = "url('" + buildUrl + "/Build.jpg') center / cover";
   loadingBar.style.display = "block";
 
   var script = document.createElement("script");
   script.src = loaderUrl;
   script.onload = () => {
     createUnityInstance(canvas, config, (progress) => {
-      progressBarFull.style.width = 100 * progress + "%";
+      //progressBarFull.style.width = 100 * progress + "%";
+	  setPercentage(100 * progress);
     }).then((unityInstance) => {
       unityInstanceRef = unityInstance;
       loadingBar.style.display = "none";
@@ -112,3 +114,18 @@
 	}
 
 	window.addEventListener('resize', resizeCanvas);
+
+
+const progressContainer = document.querySelector('.progress-container');
+
+function setPercentage(pecent) {
+  const percentage = pecent
+  + '%';
+  
+  const progressEl = progressContainer.querySelector('.progress');
+  //const percentageEl = progressContainer.querySelector('.percentage');
+  
+  progressEl.style.width = percentage;
+  //percentageEl.innerText = percentage;
+  //percentageEl.style.left = percentage;
+}
