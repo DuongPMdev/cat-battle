@@ -1,4 +1,4 @@
-const cacheName = "CatB-Cat Battle-1.0.9.8";
+const cacheName = "CatB-Cat Battle-1.0.10";
 const contentToCache = [
     "Build/WebGL.loader.js",
     "Build/WebGL.framework.js.unityweb",
@@ -83,29 +83,69 @@ self.addEventListener('activate', event => {
   );
 });
 
-self.addEventListener("fetch", function (e) {
-	console.log("[Service Worker] Install cacheName=" + cacheName);
-  e.respondWith(
-    (async function () {
-      let response = await caches.match(e.request);
-      console.log(`[Service Worker] Fetching resource: ${e.request.url}`);
-      if (response) {
-        return response;
-      }
+self.addEventListener("fetch", function (event) {
+	// console.log("[Service Worker] Install cacheName=" + cacheName);
+  // e.respondWith(
+    // (async function () {
+      // let response = await caches.match(e.request);
+      // console.log(`[Service Worker] Fetching resource: ${e.request.url}`);
+      // if (response) {
+        // return response;
+      // }
 
-      response = await fetch(e.request);
-      const cache = await caches.open(cacheName);
-      console.log(`[Service Worker] Caching new resource: ${e.request.url}`);
-      if(e.request.method !== "GET") {
-        return Promise.reject('no-match')
-      }
-	   else
-	  {
-		cache.put(e.request, response.clone());
-	  }
-      return response;
-    })()
-  );
+      // response = await fetch(e.request);
+      // const cache = await caches.open(cacheName);
+      // console.log(`[Service Worker] Caching new resource: ${e.request.url}`);
+      // if(e.request.method !== "GET") {
+        // //return Promise.reject('no-match')
+        // return null;
+      // }
+	   // else
+	  // {
+		// cache.put(e.request, response.clone());
+	  // }
+      // return response;
+    // })()
+  // );
+  
+  //new
+  if (event.request.method === 'POST') {
+    // Always fetch from the network for POST requests
+    event.respondWith(
+      fetch(event.request)
+        .then(response => {
+          // Return the response directly from the network
+          return response;
+        })
+        .catch(error => {
+          // Handle network errors (e.g., show an error page)
+          return new Response('Network error occurred', {
+            status: 500,
+            statusText: 'Network Error'
+          });
+        })
+    );
+  } else {
+    // Handle other types of requests (GET, PUT, etc.) as needed
+    event.respondWith(
+      caches.match(event.request)
+        .then(cachedResponse => {
+          if (cachedResponse) {
+            // Return the cached response if available
+            return cachedResponse;
+          }
+          // Otherwise, fetch from the network
+          return fetch(event.request);
+        })
+        .catch(error => {
+          // Handle network errors for non-POST requests
+          return new Response('Network error occurred', {
+            status: 500,
+            statusText: 'Network Error'
+          });
+        })
+    );
+  }
 });
 
 // Listening for messages from the client
