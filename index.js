@@ -40,7 +40,7 @@
     streamingAssetsUrl: "StreamingAssets",
     companyName: "CatB",
     productName: "Cat Battle",
-    productVersion: "1.0.10.16",
+    productVersion: "1.0.10.17",
     showBanner: unityShowBanner,
 	cacheControl: function (url) {
   //return "immutable";
@@ -221,4 +221,60 @@ function ForceReload()
 		
 		window.location.reload();
 		//alert('The application has been updated. Please clear your browser cache to ensure you have the latest version.');
+}
+
+// Purchase
+function sendTelegramPayment(botToken, providerToken, chatId, amount, currency) {
+    const url = `https://api.telegram.org/bot${botToken}/sendInvoice`;
+
+    const payload = JSON.stringify({
+        unique_id: `${chatId}_${Date.now()}`,  // Unique payload ID
+        data: '100 stars purchase'
+    });
+
+    const data = {
+        chat_id: chatId,
+        title: 'Buy 100 Stars',
+        description: 'Purchase 100 Stars to use in the app',
+        payload: payload,
+        provider_token: providerToken,
+        //start_parameter: 'get_100_stars',
+        currency: currency,
+        prices: [
+            { label: '100 Stars', amount: amount }  // Define the item and its price
+        ],
+        photo_url: 'https://example.com/star-icon.png',  // Optional: image URL for the product
+        photo_width: 512,
+        photo_height: 512,
+        need_shipping_address: false,  // Set true if you need the shipping address
+        is_flexible: false  // Set true if the final price depends on shipping
+    };
+
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(result => {
+        console.log('Payment sent:', result);
+    })
+    .catch(error => {
+        console.error('Error sending payment:', error);
+    });
+}
+
+function openInvoice(invoice_url)
+{
+	// Open the invoice
+	window.Telegram.WebApp.openInvoice(invoice_url);
+}
+
+window.Telegram.WebView.onEvent('invoice_closed', onInvoiceCloseCustom);
+
+function onInvoiceCloseCustom(eventType, eventData)
+{
+	console.log("TUK:::" + JSON.stringify(eventData));
 }
