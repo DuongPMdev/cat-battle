@@ -1,8 +1,4 @@
-// window.addEventListener("load", function () {
-    // if ("serviceWorker" in navigator) {
-      // navigator.serviceWorker.register("ServiceWorker.js");
-    // }
-  // });
+
   var unityInstanceRef;
   var unsubscribe;
   var container = document.querySelector("#unity-container");
@@ -44,9 +40,10 @@
     streamingAssetsUrl: "StreamingAssets",
     companyName: "CatB",
     productName: "Cat Battle",
-    productVersion: "1.0.6",
+    productVersion: "1.0.11.5",
     showBanner: unityShowBanner,
 	cacheControl: function (url) {
+  //return "immutable";
      return "no-store";
    },
   };
@@ -128,4 +125,170 @@ function setPercentage(pecent) {
   progressEl.style.width = percentage;
   //percentageEl.innerText = percentage;
   //percentageEl.style.left = percentage;
+}
+
+
+// Caching control
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('ServiceWorker.js')
+        .then(function(registration) {
+            console.log('ServiceWorker registration successful with scope: ', registration.scope);
+
+            registration.addEventListener('updatefound', function() {
+                const newWorker = registration.installing;
+
+                newWorker.addEventListener('statechange', function() {
+                    if (newWorker.state === 'installed') {
+                        if (navigator.serviceWorker.controller) {
+                            // New content is available, inform the user
+                            notifyUserAboutUpdate();
+							//console.log('ServiceWorker Update!!!');
+							//ForceReload();
+                        }
+                    }
+                });
+            });
+        }).catch(function(error) {
+            console.log('ServiceWorker registration failed: ', error);
+        });
+
+    // Listening for messages from the Service Worker
+    navigator.serviceWorker.addEventListener('message', function(event) {
+        if (event.data === 'newVersionAvailable') {
+            notifyUserAboutUpdate();
+			//console.log('ServiceWorker Update 1!!!');
+			//ForceReload();
+        }
+    });
+}
+
+function notifyUserAboutUpdate() {
+    alertAndForceUserAboutUpdate();
+}
+
+function notifyUserAboutUpdateByClickButton() {
+	// Show a custom update message to the user
+    const updateMessage = document.createElement('div');
+    
+    //updateMessage.innerText = 'New version available. Click to update!';
+    updateMessage.style.position = 'fixed';
+    updateMessage.style.bottom = '0';
+    updateMessage.style.width = '100%';
+    updateMessage.style.height = '100%';
+    updateMessage.style.backgroundColor = 'transparent';
+    updateMessage.style.textAlign = 'center';
+    //updateMessage.style.color = '#FFFFFF';
+    updateMessage.style.fontSize = '23px';
+    updateMessage.style.padding = '10px';
+    updateMessage.style.zIndex = '1000';
+	document.body.appendChild(updateMessage);
+	
+	const popMessage = document.createElement('div');
+	popMessage.innerText = 'New version available. Click to update!';
+    popMessage.style.position = 'fixed';
+    popMessage.style.bottom = '0';
+    popMessage.style.width = '100%';
+    popMessage.style.backgroundColor = '#29f051';
+    popMessage.style.textAlign = 'center';
+    popMessage.style.color = '#FFFFFF';
+    popMessage.style.fontSize = '20px';
+    popMessage.style.padding = '10px';
+    popMessage.style.zIndex = '1000';
+	
+	updateMessage.appendChild(popMessage);
+	
+    
+
+    updateMessage.addEventListener('click', () => {
+        ForceReload();
+      //alert('The application has been updated. Please clear your browser cache to ensure you have the latest version.');
+    });
+	
+}
+
+function alertAndForceUserAboutUpdate() {
+	alert("New version available. Press OK to update!");
+    ForceReload();
+	
+}
+
+function ForceReload()
+{
+	//console.log('ServiceWorker Update 2!!!');
+	if (navigator.serviceWorker.controller) {
+            navigator.serviceWorker.controller.postMessage('skipWaiting');
+        }
+		
+		window.location.reload();
+		//alert('The application has been updated. Please clear your browser cache to ensure you have the latest version.');
+}
+
+// Purchase
+function sendTelegramPayment(botToken, providerToken, chatId, amount, currency) {
+    const url = `https://api.telegram.org/bot${botToken}/sendInvoice`;
+
+    const payload = JSON.stringify({
+        unique_id: `${chatId}_${Date.now()}`,  // Unique payload ID
+        data: '100 stars purchase'
+    });
+
+    const data = {
+        chat_id: chatId,
+        title: 'Buy 100 Stars',
+        description: 'Purchase 100 Stars to use in the app',
+        payload: payload,
+        provider_token: providerToken,
+        //start_parameter: 'get_100_stars',
+        currency: currency,
+        prices: [
+            { label: '100 Stars', amount: amount }  // Define the item and its price
+        ],
+        photo_url: 'https://example.com/star-icon.png',  // Optional: image URL for the product
+        photo_width: 512,
+        photo_height: 512,
+        need_shipping_address: false,  // Set true if you need the shipping address
+        is_flexible: false  // Set true if the final price depends on shipping
+    };
+
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(result => {
+        console.log('Payment sent:', result);
+    })
+    .catch(error => {
+        console.error('Error sending payment:', error);
+    });
+}
+
+function openInvoice(invoice_url)
+{
+	// Open the invoice
+	window.Telegram.WebApp.openInvoice(invoice_url);
+}
+
+window.Telegram.WebView.onEvent('invoice_closed', onInvoiceCloseCustom);
+
+function onInvoiceCloseCustom(eventType, eventData)
+{
+	console.log("T-", JSON.stringify(eventData));
+	if(unityInstanceRef != null)
+	{
+		if(eventData.status == "paid")
+		{
+			unityInstanceRef.SendMessage("GameElement", "OnPurchaseSuccess", JSON.stringify(eventData)); 
+		}
+	}
+}
+
+function isSupportStarPurchase()
+{
+	if(Telegram && Telegram.WebApp.isVersionAtLeast('6.1'))
+		return true;
+	return false;
 }

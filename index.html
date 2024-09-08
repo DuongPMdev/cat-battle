@@ -3,11 +3,14 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Unity WebGL Player | Cat Battle</title>
+    <title>Cat Battle</title>
     <link rel="shortcut icon" href="TemplateData/favicon.ico">
     <link rel="stylesheet" href="TemplateData/style.css">
     <link rel="manifest" href="manifest.webmanifest">
-	<script src="https://unpkg.com/@cuonghx.ngen/cat-battle-ton-sdk@1.1.5"></script>
+	<script src="https://telegram.org/js/telegram-web-app.js"></script>
+	<script src="https://cdn.jsdelivr.net/gh/TONSolutions/telemetree-pixel@main/telemetree-pixel.js"></script>
+	<script src="https://unpkg.com/@cuonghx.ngen/cat-battle-ton-sdk@1.1.6"></script>
+	<script src="https://unpkg.com/@cuonghx.ngen/cat-battle-evm-sdk@1.0.0"></script>
   </head>
   <body>
     <div id="unity-container">
@@ -24,8 +27,15 @@
       <div id="unity-warning"> </div>
     </div>
     <script src="index.js"></script>
-	<script src="./load-sdk.js"></script>
-	<!-- Google tag (gtag.js) -->
+	<script src="load-sdk.js"></script>
+	<script>
+	  const telemetreeBuilder = telemetree({
+		  projectId: "e7abcfae-124f-433a-aa58-dbc6a8d98d02",
+		  apiKey: "6080a232-33de-48e3-9263-fe6bf03b8671",
+		  appName: "Cat Battle",
+		  isTelegramContext: true, // use false, if a website is not in Telegram Web App context
+	  });
 	</script>
+	<!-- Google tag (gtag.js) -->
   </body>
 </html>
