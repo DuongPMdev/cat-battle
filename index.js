@@ -40,7 +40,7 @@
     streamingAssetsUrl: "StreamingAssets",
     companyName: "CatB",
     productName: "Cat Battle",
-    productVersion: "1.0.10.17",
+    productVersion: "1.0.11.7",
     showBanner: unityShowBanner,
 	cacheControl: function (url) {
   //return "immutable";
@@ -276,5 +276,19 @@ window.Telegram.WebView.onEvent('invoice_closed', onInvoiceCloseCustom);
 
 function onInvoiceCloseCustom(eventType, eventData)
 {
-	console.log("TUK:::" + JSON.stringify(eventData));
+	console.log("T-", JSON.stringify(eventData));
+	if(unityInstanceRef != null)
+	{
+		if(eventData.status == "paid")
+		{
+			unityInstanceRef.SendMessage("GameElement", "OnPurchaseSuccess", JSON.stringify(eventData)); 
+		}
+	}
+}
+
+function isSupportStarPurchase()
+{
+	if(Telegram && Telegram.WebApp.isVersionAtLeast('6.1'))
+		return true;
+	return false;
 }
