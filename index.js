@@ -30,6 +30,59 @@
     }
     updateBannerVisibility();
   }
+  
+  var Module = {
+        setStatus: function (text) {
+            if (!Module.loadingText) {
+                Module.loadingText = document.getElementById('loadingText');
+            }
+            if (text) {
+                Module.loadingText.innerHTML = text;
+            }
+        },
+        monitorRunDependencies: function (left) {
+            var totalDependencies = Module.expectedDependencies || 0;
+            Module.expectedDependencies = Math.max(totalDependencies, left);
+            var percentComplete = Math.round((totalDependencies - left) / totalDependencies * 100);
+            Module.setStatus("Loading... " + percentComplete + "%");
+
+            // Remove the loading text when loading is complete
+            if (left === 0) {
+                document.getElementById('loadingText').style.display = 'none';
+            }
+        }
+    };
+	
+	// loading
+	var progress = 0;  // Simulate progress for testing
+        var dotCount = 1;
+        var loadingInterval;
+        
+        function startLoadingLoop() {
+            loadingInterval = setInterval(() => {
+                dotCount = (dotCount % 3) + 1;  // Cycle between 1, 2, and 3 dots
+                document.getElementById('dots').innerHTML = '.'.repeat(dotCount);
+                
+                // Simulate increasing progress (remove this in the actual project)
+                progress += 1;
+                if (progress >= 100) {
+                    stopLoadingLoop();
+                }
+            }, 500);  // Update every 500ms
+        }
+        
+        function stopLoadingLoop() {
+            clearInterval(loadingInterval);
+            document.getElementById('loadingText').innerHTML = "Loading complete!";
+        }
+        
+        // Call this function to start the loading loop
+        startLoadingLoop();
+
+        // Simulate Unity's loading completion (for testing purposes)
+        setTimeout(() => {
+            progress = 100;
+        }, 5000); 
 
   var buildUrl = "Build";
   var loaderUrl = buildUrl + "/WebGL.loader.js";
@@ -40,7 +93,7 @@
     streamingAssetsUrl: "StreamingAssets",
     companyName: "CatB",
     productName: "Cat Battle",
-    productVersion: "1.0.12.2",
+    productVersion: "1.0.12.3",
     showBanner: unityShowBanner,
 	cacheControl: function (url) {
   //return "immutable";
@@ -66,8 +119,12 @@
     createUnityInstance(canvas, config, (progress) => {
       //progressBarFull.style.width = 100 * progress + "%";
 	  setPercentage(100 * progress);
+	  //Module.setStatus("Loading... " + Math.round(progress * 100) + "%");
     }).then((unityInstance) => {
       unityInstanceRef = unityInstance;
+	  stopLoadingLoop();
+	  Module.setStatus("Loading complete!");
+	  document.getElementById('loadingText').style.display = 'none';
       loadingBar.style.display = "none";
     }).catch((message) => {
       alert(message);
