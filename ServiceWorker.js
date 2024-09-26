@@ -1,4 +1,4 @@
-const cacheName = "CatB-Cat Battle-1.0.12.5";
+const cacheName = "CatB-Cat Battle-1.0.12.8";
 const contentToCache = [
     "Build/WebGL.loader.js",
     "Build/WebGL.framework.js.unityweb",
@@ -8,6 +8,8 @@ const contentToCache = [
     "index.js",
 	"index.html",
     "load-sdk.js",
+    "ads.js",
+    "tracking.js",
 ];
 
 // self.addEventListener('install', function(event) {

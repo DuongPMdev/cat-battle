@@ -123,8 +123,8 @@
     }).then((unityInstance) => {
       unityInstanceRef = unityInstance;
 	  stopLoadingLoop();
-	  Module.setStatus("Loading complete!");
-	  document.getElementById('loadingText').style.display = 'none';
+	  //Module.setStatus("Loading complete!");
+	  //document.getElementById('loadingText').style.display = 'none';
       loadingBar.style.display = "none";
     }).catch((message) => {
       alert(message);
