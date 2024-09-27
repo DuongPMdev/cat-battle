@@ -326,7 +326,16 @@ function sendTelegramPayment(botToken, providerToken, chatId, amount, currency) 
 function openInvoice(invoice_url)
 {
 	// Open the invoice
-	window.Telegram.WebApp.openInvoice(invoice_url);
+	try
+	{
+		window.Telegram.WebApp.openInvoice(invoice_url);
+	}
+	catch(error)
+	{
+		console.error(error.message);
+		//console.log("TUK -- " + error.message);
+		unityInstanceRef.SendMessage("GameElement", "ShowLogPopup", "Browser is not supported! Please try in the Telegram app!"); 
+	}
 }
 
 window.Telegram.WebView.onEvent('invoice_closed', onInvoiceCloseCustom);
@@ -345,7 +354,7 @@ function onInvoiceCloseCustom(eventType, eventData)
 
 function isSupportStarPurchase()
 {
-	if(Telegram && Telegram.WebApp.isVersionAtLeast('6.1'))
+	//if(Telegram && Telegram.WebApp.isVersionAtLeast('6.1'))
 		return true;
-	return false;
+	//return false;
 }
