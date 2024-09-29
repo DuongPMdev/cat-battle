@@ -11,7 +11,7 @@
 			// user watch ad till the end
 			// your code to reward user
 			//console.log("ADr" + result);
-			tracking("ADGram-Success|" + data.type);
+			jsTracking("ADGram-Success|" + data.type);
 			if(unityInstanceRef)
 			{
 				unityInstanceRef.SendMessage("MegaADHandler", "OnRewardCompleted", JSON.stringify(data.type));
@@ -40,7 +40,7 @@
 			// user watch ad till the end
 			// your code to reward user
 			//console.log("ADr" + result);
-			tracking("ADGram-Success|" + data.type);
+			jsTracking("ADGram-Success|" + data.type);
 			if(unityInstanceRef)
 			{
 				unityInstanceRef.SendMessage("MegaADHandler", "OnRewardCompleted", JSON.stringify(data.type));
