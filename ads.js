@@ -2,15 +2,16 @@
   function showBanner(type)
   {
 	  var data = JSON.parse(type);
-	  console.log("TUK data" + data.blockId);
-	  console.log("TUK data type" + data.type);
+	  //console.log("TUK data" + data.blockId);
+	  //console.log("TUK data type" + data.type);
 	  const BannerAdController = window.Adsgram.init({ blockId: data.blockId });
 	  if(BannerAdController)
 	  {
 		  BannerAdController.show().then((result) => {
 			// user watch ad till the end
 			// your code to reward user
-			console.log("ADr" + result);
+			//console.log("ADr" + result);
+			tracking("ADGram-Success|" + data.type);
 			if(unityInstanceRef)
 			{
 				unityInstanceRef.SendMessage("MegaADHandler", "OnRewardCompleted", JSON.stringify(data.type));
@@ -30,15 +31,16 @@
   function showReward(type)
   {
 	  var data = JSON.parse(type);
-	  console.log("TUK data" + data.blockId);
-	  console.log("TUK data type" + data.type);
+	  //console.log("TUK data" + data.blockId);
+	  //console.log("TUK data type" + data.type);
 	  const BannerAdController = window.Adsgram.init({ blockId: data.blockId });
 	  if(BannerAdController)
 	  {
 		  BannerAdController.show().then((result) => {
 			// user watch ad till the end
 			// your code to reward user
-			console.log("ADr" + result);
+			//console.log("ADr" + result);
+			tracking("ADGram-Success|" + data.type);
 			if(unityInstanceRef)
 			{
 				unityInstanceRef.SendMessage("MegaADHandler", "OnRewardCompleted", JSON.stringify(data.type));

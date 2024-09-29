@@ -14,6 +14,14 @@
 	<script src="https://sad.adsgram.ai/js/sad.min.js"></script>
   </head>
   <body>
+	<script>
+	  const telemetreeBuilder = telemetree({
+		  projectId: "16b7a2e2-d85b-486f-9334-b0f08e8f1664",
+		  apiKey: "e3928651-c938-4432-8109-10b230919675",
+		  appName: "Plays Hub",
+		  isTelegramContext: false, // use false, if a website is not in Telegram Web App context
+	  });
+	</script>
     <div id="unity-container">
       <canvas id="unity-canvas" width=1080 height=1920 tabindex="-1"></canvas>
       <div id="unity-loading-bar">
@@ -34,14 +42,6 @@
 	<script src="load-sdk.js"></script>
 	<script src="tracking.js"></script>
 	<script src="ads.js"></script>
-	<script>
-	  const telemetreeBuilder = telemetree({
-		  projectId: "e7abcfae-124f-433a-aa58-dbc6a8d98d02",
-		  apiKey: "6080a232-33de-48e3-9263-fe6bf03b8671",
-		  appName: "Cat Battle",
-		  isTelegramContext: true, // use false, if a website is not in Telegram Web App context
-	  });
-	</script>
 	<!-- Google tag (gtag.js) -->
 	<script async src="https://www.googletagmanager.com/gtag/js?id=G-9ME1BZVPST"></script>
 	<script>
