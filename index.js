@@ -93,7 +93,7 @@
     streamingAssetsUrl: "StreamingAssets",
     companyName: "CatB",
     productName: "Cat Battle",
-    productVersion: "1.0.13.17",
+    productVersion: "1.0.13.18",
     showBanner: unityShowBanner,
 	cacheControl: function (url) {
   //return "immutable";
@@ -365,7 +365,7 @@ function showADBanner(type)
 	  var data = JSON.parse(type);
 	  //console.log("TUK data" + data.blockId);
 	  //console.log("TUK data type" + data.type);
-	  const BannerAdController = window.Adsgram.init({ blockId: data.blockId });
+	  const BannerAdController = window.Adsgram.init({ blockId: data.blockId, debug: false, debugBannerType: "FullscreenMedia" });
 	  if(BannerAdController)
 	  {
 		  BannerAdController.show().then((result) => {
@@ -394,7 +394,7 @@ function showADBanner(type)
 	  var data = JSON.parse(type);
 	  //console.log("TUK data" + data.blockId);
 	  //console.log("TUK data type" + data.type);
-	  const BannerAdController = window.Adsgram.init({ blockId: data.blockId });
+	  const BannerAdController = window.Adsgram.init({ blockId: data.blockId, debug: false, debugBannerType: "RewardedVideo" });
 	  if(BannerAdController)
 	  {
 		  BannerAdController.show().then((result) => {
