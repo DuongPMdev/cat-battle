@@ -93,7 +93,7 @@
     streamingAssetsUrl: "StreamingAssets",
     companyName: "CatB",
     productName: "Cat Battle",
-    productVersion: "1.0.12.3",
+    productVersion: "1.0.13.39",
     showBanner: unityShowBanner,
 	cacheControl: function (url) {
   //return "immutable";
@@ -358,3 +358,92 @@ function isSupportStarPurchase()
 		return true;
 	//return false;
 }
+
+// Ads
+async function showADBanner(type)
+  {
+	  var data = JSON.parse(type);
+	  //console.log("TUK data" + data.blockId);
+	  //console.log("TUK data type" + data.type);
+	  const BannerAdController = await window.Adsgram.init({ blockId: data.blockId, debug: false, debugBannerType: "FullscreenMedia" });
+	  if(BannerAdController)
+	  {
+		  BannerAdController.show().then((result) => {
+			// user watch ad till the end
+			// your code to reward user
+			//console.log("ADr" + result);
+			
+			console.log("AD Completed: " + JSON.stringify(result));
+			if(unityInstanceRef)
+			{
+				unityInstanceRef.SendMessage("MegaADHandler", "OnRewardCompleted", JSON.stringify(data.type));
+			}
+			telemetreeTrackingStr("ADGram-Success|" + data.type);
+			}).catch((result) => {
+				// user get error during playing ad or skip ad
+				// do nothing or whatever you want
+				console.log("AD Failed: " + JSON.stringify(result));
+				if(unityInstanceRef)
+				{
+					unityInstanceRef.SendMessage("MegaADHandler", "OnLoadFail", JSON.stringify(data.type));
+				}
+		  })
+	  }
+  }
+  
+  async function showADReward(type)
+  {
+	  var data = JSON.parse(type);
+	  //console.log("TUK data" + data.blockId);
+	  //console.log("TUK data type" + data.type);
+	  const BannerAdController = await window.Adsgram.init({ blockId: data.blockId, debug: false, debugBannerType: "RewardedVideo" });
+	  if(BannerAdController)
+	  {
+		  BannerAdController.show().then((result) => {
+			// user watch ad till the end
+			// your code to reward user
+			//console.log("ADr" + result);
+			
+			console.log("AD Completed: " + JSON.stringify(result));
+			if(unityInstanceRef)
+			{
+				unityInstanceRef.SendMessage("MegaADHandler", "OnRewardCompleted", JSON.stringify(data.type));
+			}
+			telemetreeTrackingStr("ADGram-Success|" + data.type);
+			}).catch((result) => {
+				// user get error during playing ad or skip ad
+				// do nothing or whatever you want
+				console.log("AD Failed: " + JSON.stringify(result));
+				if(unityInstanceRef)
+				{
+					unityInstanceRef.SendMessage("MegaADHandler", "OnLoadFail", JSON.stringify(data.type));
+				}
+		  })
+	  }
+  }
+  
+  // Param
+  function getLaunchParams()
+{
+	var launchParams = JSON.stringify(window.Telegram.WebApp);
+	//console.log('launchParams = ', launchParams);
+	return launchParams;
+}
+  
+  // Tracking
+  function telemetreeTrackingStr(data)
+  {
+	  if(telemetreeBuilder)
+	  {
+		  telemetreeBuilder.track(data, data);
+	  }
+  }
+  
+  function telemetreeTracking(data)
+  {
+	  if(telemetreeBuilder)
+	  {
+		  var trackingData = JSON.parse(data);
+		  telemetreeBuilder.track(trackingData.t, trackingData.e);
+	  }
+  }

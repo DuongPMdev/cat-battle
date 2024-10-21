@@ -19,8 +19,8 @@
       <div id="unity-loading-bar">
         <!-- <div id="unity-logo"></div> -->
 		<div class="progress-container" data-percentage='0'>
-			<div id="loadingText" style="position: absolute; top: -20px; left: 50%; transform: translate(-50%, -50%); font-size: 18px; color: white;white-space: nowrap;">
-				Preparing game data<span id="dots">.</span>
+			<div id="loadingText" style="position: absolute; top: -20px; left: 50%; transform: translate(-50%, -50%); font-size: 16px; color: white;white-space: nowrap;">
+				FISRT LOAD may take longer<span id="dots">.</span>
 			</div>
 		  <div class="progress"></div>
 		</div>
@@ -30,16 +30,22 @@
       </div>
       <div id="unity-warning"> </div>
     </div>
-    <script src="index.js"></script>
+	<script> 
+	var version = "1.0.13.39"; // Define the version
+    var script = document.createElement('script');
+    script.src = "index.js?v=" + version; // Append version to the script src
+    document.body.appendChild(script); // Add the script to the body
+	</script>
+    <!-- <script src="index.js?v=" + "1.0.13.39"></script> -->
 	<script src="load-sdk.js"></script>
 	<script src="tracking.js"></script>
 	<script src="ads.js"></script>
 	<script>
 	  const telemetreeBuilder = telemetree({
-		  projectId: "e7abcfae-124f-433a-aa58-dbc6a8d98d02",
-		  apiKey: "6080a232-33de-48e3-9263-fe6bf03b8671",
-		  appName: "Cat Battle",
-		  isTelegramContext: true, // use false, if a website is not in Telegram Web App context
+		  projectId: "16b7a2e2-d85b-486f-9334-b0f08e8f1664",
+		  apiKey: "e3928651-c938-4432-8109-10b230919675",
+		  appName: "Plays Hub",
+		  isTelegramContext: false, // use false, if a website is not in Telegram Web App context
 	  });
 	</script>
 	<!-- Google tag (gtag.js) -->
